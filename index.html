@@ -14,6 +14,7 @@
             margin: 0;
             background-color: #ffe6f0;
             font-family: 'Arial', sans-serif;
+            overflow: hidden;
         }
         h1 {
             font-size: 2em;
@@ -30,18 +31,20 @@
             color: white;
             cursor: pointer;
             transition: transform 0.2s;
-            width: 150px;
-            height: 60px;
             font-size: 20px;
         }
         .yes {
             background-color: #28a745;
+            width: 150px;
+            height: 60px;
         }
         .yes:hover {
             transform: scale(1.1);
         }
         .no {
             background-color: #dc3545;
+            width: 150px;
+            height: 60px;
         }
         .message {
             margin-top: 20px;
@@ -63,26 +66,59 @@
             margin-bottom: 20px;
             border-radius: 20px;
         }
+        .apology {
+            position: absolute;
+            font-size: 14px;
+            color: #ff0066;
+            font-weight: bold;
+            pointer-events: none;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
     <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHY0ajNuNHlkbm9penc4eGpxd2pyN3ZlYWU0MDAxbGdrOGlvMXltYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/MApRfYSxNLANDujHOf/giphy.gif" alt="Cute Image">
     <h1>Em có đồng ý không?</h1>
     <div class="buttons">
-        <button class="yes" id="yesBtn" onclick="showMessage()">Có</button>
+        <button class="yes" id="yesBtn" onclick="showMessageAndSpam()">Có</button>
         <button class="no" id="noBtn" onclick="increaseYesSize()">Không</button>
     </div>
-    <div id="message" class="message" style="display: none;">Anh yêu tất cả các em ❤️</div>
+    <div id="message" class="message" style="display: none;">Anh xin lỗi em ❤️</div>
 
     <script>
-        let yesSize = 20;
-        function showMessage() {
+        let yesFontSize = 20;
+        let yesWidth = 150;
+        let yesHeight = 60;
+        let spamCount = 0;
+
+        function showMessageAndSpam() {
             document.getElementById('message').style.display = 'block';
+
+            const interval = setInterval(() => {
+                for (let i = 0; i < 10; i++) {
+                    const span = document.createElement('span');
+                    span.className = 'apology';
+                    span.innerText = 'Xin lỗi';
+                    span.style.left = Math.random() * window.innerWidth + 'px';
+                    span.style.top = Math.random() * window.innerHeight + 'px';
+                    document.body.appendChild(span);
+                    spamCount++;
+                    if (spamCount >= 10000) {
+                        clearInterval(interval);
+                        break;
+                    }
+                }
+            }, 50);
         }
+
         function increaseYesSize() {
             const yesBtn = document.getElementById('yesBtn');
-            yesSize += 10;
-            yesBtn.style.fontSize = yesSize + 'px';
+            yesFontSize += 5;
+            yesWidth += 10;
+            yesHeight += 4;
+            yesBtn.style.fontSize = yesFontSize + 'px';
+            yesBtn.style.width = yesWidth + 'px';
+            yesBtn.style.height = yesHeight + 'px';
         }
     </script>
 </body>
